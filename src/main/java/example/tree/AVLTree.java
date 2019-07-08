@@ -227,8 +227,8 @@ public class AVLTree<K extends Comparable<K>, V> {
 
         // 计算平衡因子
         int balanceFactor = getBalanceFactor(node);
-        // 当该节点的平衡因子大于1时 && 该节点的左子树的平衡因子大于1时 此时需要做右旋转来保证左右子树的高度差不超过1 LL
-        if (Math.abs(balanceFactor) > 1 && getBalanceFactor(node.left) >= 0) {
+        // LL
+        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
             return rightRotate(node);
         }
         // 判断是否需要右旋转 RR
