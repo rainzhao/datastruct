@@ -1,5 +1,7 @@
 package example.notify;
 
+import java.util.concurrent.*;
+
 /**
  * @author zhaoyu
  * @date 2019-02-20
@@ -14,15 +16,13 @@ public class ProducerAndConsumerWaitNotifyTest {
 
     public static void main(String[] args) {
         ProducerAndConsumerWaitNotifyTest test1 = new ProducerAndConsumerWaitNotifyTest();
-        new Thread(test1.new Producer()).start();
-        new Thread(test1.new Consumer()).start();
-        new Thread(test1.new Producer()).start();
-        new Thread(test1.new Consumer()).start();
-        new Thread(test1.new Producer()).start();
-        new Thread(test1.new Consumer()).start();
-        new Thread(test1.new Producer()).start();
-        new Thread(test1.new Consumer()).start();
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 20, 15, TimeUnit.MINUTES, new ArrayBlockingQueue<>(1024));
+        for (int i = 0; i < 5; i++) {
+            threadPoolExecutor.execute(test1.new Producer());
+            threadPoolExecutor.execute(test1.new Consumer());
+        }
     }
+
 
     class Consumer implements Runnable {
         @Override
@@ -50,7 +50,7 @@ public class ProducerAndConsumerWaitNotifyTest {
             for (int i = 0; i < 10; i++) {
                 synchronized (lock) {
                     try {
-                        while (count == full) {
+                        if (count == full) {
                             lock.wait();
                         }
                     } catch (InterruptedException e) {

@@ -1,6 +1,8 @@
 package example.queue;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -118,13 +120,42 @@ public class ArrayBlockQueueByCondition<T> {
         return ret;
     }
 
-    public static void main(String[] args) {
-        int size = 0;
+    public static void main(String[] args) throws Exception{
+//        int size = 0;
+//
+//        int[] buckets = new int[2];
+//        buckets[size++] = 10;
+//
+//        System.out.println(buckets);
 
-        int[] buckets = new int[2];
-        buckets[size++] = 10;
 
-        System.out.println(buckets);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 20, 15, TimeUnit.MINUTES, new ArrayBlockingQueue<>(1024));
+        ArrayBlockQueueByCondition<Integer> blockingQueueDemo = new ArrayBlockQueueByCondition<>(10);
+        for (int i = 0; i < 10; i++) {
+            final int data = i;
+            threadPoolExecutor.execute(() -> {
+                try {
+                    blockingQueueDemo.put(data);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+
+        for (int i = 0; i < 20; i++) {
+            threadPoolExecutor.execute(() -> {
+                Integer take = null;
+                try {
+                    take = blockingQueueDemo.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("take data is : " + take);
+            });
+        }
+
+
     }
 
 

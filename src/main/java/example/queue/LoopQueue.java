@@ -3,6 +3,8 @@ package example.queue;
 /**
  * @author zhaoyu
  * @date 2019-02-18
+ *
+ * 循环数组
  */
 public class LoopQueue<E> {
     private E[] data;

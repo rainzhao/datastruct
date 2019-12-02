@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+
+    <properties>
+        <property name="SERVICE_NAME">BikeService</property>
+    </properties>
+
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+        </Console>
+        <File name="common" fileName="logs/common.log">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+        </File>
+        <File name="error" fileName="logs/error.log">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+        </File>
+        <File name="push" fileName="logs/push.log">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+        </File>
+        <File name="order" fileName="logs/order.log">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n"/>
+        </File>
+        <File name="sms" fileName="logs/sms.log">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n"/>
+        </File>
+         <File name="da" fileName="logs/da.log">
+            <PatternLayout pattern="[%p] %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n"/>
+        </File>
+    </appenders>
+
+    <loggers>
+
+        <Logger name="common" level="debug" additivity="false">
+            <AppenderRef ref="common" level="info"/>
+        </Logger>
+
+        <Logger name="error" level="debug" additivity="false">
+            <AppenderRef ref="error" level="debug"/>
+        </Logger>
+
+        <Logger name="push" level="debug" additivity="false">
+            <AppenderRef ref="push" level="debug"/>
+        </Logger>
+
+        <Logger name="sms" level="debug" additivity="false">
+            <AppenderRef ref="sms" level="debug"/>
+        </Logger>
+
+        <Logger name="order" level="debug" additivity="false">
+            <AppenderRef ref="order" level="debug"/>
+        </Logger>
+        
+        <Logger name="da" level="debug" additivity="false">
+            <AppenderRef ref="da" level="debug"/>
+        </Logger>
+
+        <root level="error">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+
+</configuration> 
